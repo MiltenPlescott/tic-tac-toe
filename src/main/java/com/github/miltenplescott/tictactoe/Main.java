@@ -3,13 +3,13 @@
  */
 package com.github.miltenplescott.tictactoe;
 
-public class App {
+public class Main {
 
 	public String getGreeting() {
 		return "Hello world.";
 	}
 
 	public static void main(String[] args) {
-		System.out.println(new App().getGreeting());
+		System.out.println(new Main().getGreeting());
 	}
 }
