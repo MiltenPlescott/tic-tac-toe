@@ -18,6 +18,8 @@ plugins {
 	id 'findbugs'
 	
 	id 'pmd'
+	
+	id 'com.github.spotbugs' version '1.6.2'
 }
 
 tasks.withType (JavaCompile) {
@@ -64,7 +66,8 @@ tasks.withType(FindBugs) {
 	reports {
 		xml.enabled false
 		html.enabled true
-		//html.stylesheet resources.text.fromFile('config/xsl/findbugs-custom.xsl')
+		html.stylesheet resources.text.fromFile('config/xsl/fancy.xsl')
+		//html.stylesheet resources.text.fromFile('config/xsl/summary.xsl')
 	}
 }
 
@@ -81,5 +84,18 @@ tasks.withType(Pmd){
 	reports{
 		xml.enabled false
 		html.enabled true
+	}
+}
+
+spotbugs {
+	toolVersion = '3.1.6'
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+	reports {
+		html.enabled = true
+		xml.enabled = false
+		html.stylesheet resources.text.fromFile('config/xsl/fancy.xsl')
+		//html.stylesheet resources.text.fromFile('config/xsl/summary.xsl')
 	}
 }
