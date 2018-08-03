@@ -3,6 +3,8 @@
  */
 package com.github.miltenplescott.tictactoe;
 
+import com.github.miltenplescott.tictactoe.view.Frame;
+
 public class Main {
 
 	public String getGreeting() {
@@ -11,5 +13,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		System.out.println(new Main().getGreeting());
+
+		Frame.getInstance();
+
 	}
 }
