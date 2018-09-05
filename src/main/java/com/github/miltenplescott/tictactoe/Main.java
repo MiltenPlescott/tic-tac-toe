@@ -3,7 +3,8 @@
  */
 package com.github.miltenplescott.tictactoe;
 
-import com.github.miltenplescott.tictactoe.view.Frame;
+import com.github.miltenplescott.tictactoe.view.View;
+import javax.swing.SwingUtilities;
 
 public class Main {
 
@@ -14,7 +15,11 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println(new Main().getGreeting());
 
-		Frame.getInstance();
-
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				View view = View.getInstance();
+			}
+		});
 	}
 }

@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/MiltenPlescott/tic-tac-toe.svg?branch=master)](https://travis-ci.org/MiltenPlescott/tic-tac-toe)
 [![codecov](https://codecov.io/gh/MiltenPlescott/tic-tac-toe/branch/master/graph/badge.svg)](https://codecov.io/gh/MiltenPlescott/tic-tac-toe)
+[![codebeat badge](https://codebeat.co/badges/8311b4cf-e378-4434-a11d-33bed436772a)](https://codebeat.co/projects/github-com-miltenplescott-tic-tac-toe-master)
 [![Known Vulnerabilities](https://snyk.io/test/github/MiltenPlescott/tic-tac-toe/badge.svg)](https://snyk.io/test/github/MiltenPlescott/tic-tac-toe)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 

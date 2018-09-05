@@ -9,7 +9,6 @@ package com.github.miltenplescott.tictactoe.view;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ public class GameBoard extends JPanel {
 
 	private List<List<GameBoardButton>> buttons = new ArrayList<>(3);
 
-	// keep the buttons square !!!!
 	private GameBoard() {
 		//this.setLayout(new GridLayout(3, 3, 0, 0));
 		this.setLayout(new GridBagLayout());
@@ -33,13 +31,26 @@ public class GameBoard extends JPanel {
 			for (int col = 0; col < 3; col++) {
 				GameBoardButton but = new GameBoardButton("" + row + col);
 				buttons.get(row).add(but);
-				this.add(but, GridBagConstraintsWrapper(row, col));
+				this.add(but, gridBagConstraintsWrapper(col, row));
 			}
 		}
 	}
 
-	private static GridBagConstraints GridBagConstraintsWrapper(int row, int col) {
+	private static GridBagConstraints gridBagConstraintsWrapper(int row, int col) {
 		return new GridBagConstraints(row, col, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+	}
+
+	public List<List<GameBoardButton>> getButtons() {
+		return buttons;
+	}
+
+	public GameBoardButton getButton(int row, int col) {
+		try {
+			return buttons.get(row).get(col);
+		}
+		catch (IndexOutOfBoundsException | NullPointerException e) {
+			return null;
+		}
 	}
 
 	public static GameBoard getInstance() {
