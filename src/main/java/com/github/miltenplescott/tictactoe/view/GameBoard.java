@@ -31,13 +31,13 @@ public class GameBoard extends JPanel {
 			for (int col = 0; col < 3; col++) {
 				GameBoardButton but = new GameBoardButton("" + row + col);
 				buttons.get(row).add(but);
-				this.add(but, gridBagConstraintsWrapper(col, row));
+				this.add(but, gridBagConstraintsWrapper(row, col));
 			}
 		}
 	}
 
 	private static GridBagConstraints gridBagConstraintsWrapper(int row, int col) {
-		return new GridBagConstraints(row, col, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+		return new GridBagConstraints(col, row, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
 	}
 
 	public List<List<GameBoardButton>> getButtons() {

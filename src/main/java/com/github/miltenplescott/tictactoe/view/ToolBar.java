@@ -20,10 +20,10 @@ import javax.swing.event.ChangeEvent;
 public class ToolBar extends JToolBar {
 
 	private JSlider slider;
-	private final int sliderDefaultMin = 252;
-	private final int sliderDefaultMax = Frame.getInstance().getScreenShorterDimensionDivisibleBy9();
-	private final int sliderMin = 252;
-	private final int sliderMax = Frame.getInstance().getScreenShorterDimensionDivisibleBy9();
+	private static final int sliderDefaultMin = 252;
+	private static final int sliderDefaultMax = Frame.getInstance().getScreenShorterDimensionDivisibleBy9();
+	//private final int sliderMin = 252;
+	//private final int sliderMax = Frame.getInstance().getScreenShorterDimensionDivisibleBy9();
 
 	private ToolBar() {
 		super("toolbar", JToolBar.HORIZONTAL);
@@ -37,6 +37,7 @@ public class ToolBar extends JToolBar {
 		slider.setMinorTickSpacing(9);
 		slider.setEnabled(false);
 
+		@SuppressWarnings("UseOfObsoleteCollectionType")
 		Hashtable sliderLabels = new Hashtable();
 		sliderLabels.put(slider.getMinimum(), new JLabel("MIN"));
 		sliderLabels.put(slider.getMaximum(), new JLabel("MAX"));
@@ -54,6 +55,7 @@ public class ToolBar extends JToolBar {
 		slider.setMaximum(max);
 		slider.setValue(current);
 
+		@SuppressWarnings("UseOfObsoleteCollectionType")
 		Hashtable sliderLabels = new Hashtable();
 		sliderLabels.put(slider.getMinimum(), new JLabel("MIN"));
 		sliderLabels.put(slider.getMaximum(), new JLabel("MAX"));
@@ -63,7 +65,7 @@ public class ToolBar extends JToolBar {
 	}
 
 	public void addSliderListener() {
-		slider.addChangeListener((ChangeEvent e) -> {
+		slider.addChangeListener((ChangeEvent evnt) -> {
 			if (!slider.getValueIsAdjusting()) {
 				Frame.getInstance().changeFrameSize(slider.getValue());
 			}

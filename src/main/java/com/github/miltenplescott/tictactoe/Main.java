@@ -12,13 +12,18 @@ public class Main {
 		return "Hello world.";
 	}
 
+	private static void newInstanceNotUsedWarning(View view) {
+	}
+
 	public static void main(String[] args) {
 		System.out.println(new Main().getGreeting());
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+
 				View view = View.getInstance();
+				newInstanceNotUsedWarning(view);
 			}
 		});
 	}
