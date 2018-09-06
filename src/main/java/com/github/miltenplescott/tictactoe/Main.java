@@ -8,14 +8,25 @@ import javax.swing.SwingUtilities;
 
 public class Main {
 
+	public static Symbol userSymbol;
+
 	public String getGreeting() {
 		return "Hello world.";
 	}
 
+	// to suppressing SpotBugs warning
 	private static void newInstanceNotUsedWarning(View view) {
 	}
 
 	public static void main(String[] args) {
+
+		if (args.length == 0) {
+			userSymbol = Symbol.X;
+		}
+		else {
+			parseArgs(args);
+		}
+
 		System.out.println(new Main().getGreeting());
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -26,5 +37,48 @@ public class Main {
 				newInstanceNotUsedWarning(view);
 			}
 		});
+	}
+
+	private static void parseArgs(String[] args) {
+		if (args[0].equals("-s") || args[0].equals("--user-symbol")) {
+			if (args.length == 1) {
+				printError("Symbol argument is missing.");
+			}
+			else if (args.length == 2) {
+				Symbol parsedSymbol = parseSymbol(args[1]);
+				if (parsedSymbol == null) {
+					printError("Symbol is not recognized.");
+				}
+				else {
+					userSymbol = parsedSymbol;
+				}
+			}
+			else {
+				printError("Too many arguments.");
+			}
+		}
+		else {
+			printError("Unrecognized argument(s).");
+		}
+	}
+
+	private static Symbol parseSymbol(String str) {
+		switch (str) {
+			case "x":
+			case "X":
+				return Symbol.X;
+			case "o":
+			case "O":
+			case "0":
+				return Symbol.O;
+			default:
+				return null;
+		}
+	}
+
+	private static void printError(String msg) {
+		System.err.println(msg);
+		System.err.println("Usage: java -jar tic-tac-toe.jar [-s|--user-symbol <symbol>]");
+		System.err.println("Available symbols: X, O");
 	}
 }
