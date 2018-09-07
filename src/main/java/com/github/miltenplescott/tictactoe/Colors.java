@@ -1,5 +1,5 @@
 /*
- * selected-historical-ciphers
+ * tic-tac-toe
  *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
  *
