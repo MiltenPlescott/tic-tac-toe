@@ -25,9 +25,19 @@ Run:
 $ gradlew.bat run
 ```
 
+Run with arguments:
+```sh
+$ gradlew.bat run --args="here come the arguments"
+```
+
 Run JAR:
 ```sh
 $ java -jar build/libs/tic-tac-toe.jar
+```
+
+Run JAR with arguments:
+```sh
+$ java -jar build/libs/tic-tac-toe.jar here come the arguments
 ```
 
 Generate and open javadoc:
@@ -53,9 +63,19 @@ Run:
 $ ./gradlew run
 ```
 
+Run with arguments:
+```sh
+$ ./gradlew run --args="here come the arguments"
+```
+
 Run JAR:
 ```sh
 $ java -jar build/libs/tic-tac-toe.jar
+```
+
+Run JAR with arguments:
+```sh
+$ java -jar build/libs/tic-tac-toe.jar here come the arguments
 ```
 
 Generate and open javadoc:
@@ -63,6 +83,22 @@ Generate and open javadoc:
 $ ./gradlew javadoc
 $ xdg-open build/docs/javadoc/index.html
 ```
+
+## Command line arguments
+
+##### Choosing a symbol, that will represent user's moves:
+```sh
+[-s|--user-symbol <symbol>]
+```
+  * Available symbols: X, O
+  * Default symbol: X
+
+##### Choosing game difficulty:
+```sh
+[-d|--difficulty <difficulty name|number>]
+```
+ * Available difficulty levels: random (1), easy (2), impossible (3)
+ * Default difficulty: impossible (3)
 
 ## License
 
