@@ -11,8 +11,17 @@ package com.github.miltenplescott.tictactoe.model;
  *
  * @author Milten Plescott
  */
-public enum Symbol {
+public class Game {
 
-	X, O, none;
+	private Model model;
 
+	public Game(Model model) {
+		this.model = model;
+	}
+
+	private void startNew() {
+		model.reset();
+	}
+
+	// new, restart, etc
 }

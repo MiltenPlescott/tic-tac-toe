@@ -19,16 +19,21 @@ import javax.swing.event.ChangeEvent;
  */
 public class ToolBar extends JToolBar {
 
+	private Frame frame;
 	private JSlider slider;
-	private static final int sliderDefaultMin = 252;
-	private static final int sliderDefaultMax = Frame.getInstance().getScreenShorterDimensionDivisibleBy9();
+//	private final int sliderDefaultMin = 252;
+//	private final int sliderDefaultMax = frame.getScreenShorterDimensionDivisibleBy9();
 	//private final int sliderMin = 252;
 	//private final int sliderMax = Frame.getInstance().getScreenShorterDimensionDivisibleBy9();
 
-	private ToolBar() {
+	public ToolBar(Frame frame) {
 		super("toolbar", JToolBar.HORIZONTAL);
+		this.frame = frame;
 		setFloatable(false);
 		add(new JLabel("Window size: "));
+
+		int sliderDefaultMin = 252;
+		int sliderDefaultMax = frame.getScreenShorterDimensionDivisibleBy9();
 
 		slider = new JSlider(JSlider.HORIZONTAL, sliderDefaultMin, sliderDefaultMax, 400);
 		slider.setSnapToTicks(true);
@@ -67,7 +72,7 @@ public class ToolBar extends JToolBar {
 	public void addSliderListener() {
 		slider.addChangeListener((ChangeEvent evnt) -> {
 			if (!slider.getValueIsAdjusting()) {
-				Frame.getInstance().changeFrameSize(slider.getValue());
+				frame.changeFrameSize(slider.getValue());
 			}
 		});
 		slider.setEnabled(true);
@@ -77,13 +82,4 @@ public class ToolBar extends JToolBar {
 		return slider;
 	}
 
-	public static ToolBar getInstance() {
-		return ToolBarHolder.INSTANCE;
-
-	}
-
-	private static class ToolBarHolder {
-
-		private static final ToolBar INSTANCE = new ToolBar();
-	}
 }

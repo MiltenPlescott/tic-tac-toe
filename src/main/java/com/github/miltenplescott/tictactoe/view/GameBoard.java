@@ -10,6 +10,7 @@ package com.github.miltenplescott.tictactoe.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -22,7 +23,7 @@ public class GameBoard extends JPanel {
 
 	private List<List<GameBoardButton>> buttons = new ArrayList<>(3);
 
-	private GameBoard() {
+	public GameBoard() {
 		//this.setLayout(new GridLayout(3, 3, 0, 0));
 		this.setLayout(new GridBagLayout());
 
@@ -53,12 +54,16 @@ public class GameBoard extends JPanel {
 		}
 	}
 
-	public static GameBoard getInstance() {
-		return GameBoardHolder.INSTANCE;
+	public void setListener(ActionListener listener) {
+		for (List<GameBoardButton> list : buttons) {
+			for (GameBoardButton button : list) {
+				button.addActionListener(listener);
+			}
+		}
 	}
 
-	private static class GameBoardHolder {
-
-		private static final GameBoard INSTANCE = new GameBoard();
+	public int transformIndices(int row, int col) {
+		return 3 * row + col;
 	}
+
 }

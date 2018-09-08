@@ -7,26 +7,35 @@
  */
 package com.github.miltenplescott.tictactoe.view;
 
+import java.awt.event.ActionListener;
+import java.util.List;
+
 /**
  *
  * @author Milten Plescott
  */
 public class View {
 
-	private View() {
-		Frame frame = Frame.getInstance();
+	private final Frame frame;
+
+	public View() {
+		frame = new Frame();
 		frame.addGuiComponents();
 		frame.setVisible(true);
 		frame.calculateDimensions();
 		frame.sliderSetup();
 	}
 
-	public static View getInstance() {
-		return ViewHolder.INSTANCE;
+	public List<List<GameBoardButton>> getGameBoardButtons() {
+		return frame.getGameBoard().getButtons();
 	}
 
-	private static class ViewHolder {
-
-		private static final View INSTANCE = new View();
+	public void setGameBoardButtonsListener(ActionListener listener) {
+		frame.getGameBoard().setListener(listener);
 	}
+
+	public GameBoard getGameBoard() {
+		return frame.getGameBoard();
+	}
+
 }

@@ -55,7 +55,7 @@ public class Main {
 			@Override
 			public void run() {
 
-				View view = View.getInstance();
+				View view = new View();
 				newInstanceNotUsedWarning(view);
 				Model model = new Model(userSymbol, difficulty);
 				GameBoardController gbc = new GameBoardController(model, view);

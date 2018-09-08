@@ -21,6 +21,8 @@ import com.github.miltenplescott.tictactoe.Colors;
  */
 public class Frame extends JFrame {
 
+	private GameBoard gameBoard;
+	private ToolBar toolbar;
 	// taskbar excluded
 	private final int screenWidth;
 	private final int screenHeight;
@@ -29,7 +31,7 @@ public class Frame extends JFrame {
 	private int widthExcludingGameBoard;
 	private int heightExcludingGameBoard;
 
-	private Frame() {
+	public Frame() {
 		super("Tic Tac Toe");
 		setBackground(Colors.GREY);
 		setResizable(false);
@@ -52,21 +54,23 @@ public class Frame extends JFrame {
 	}
 
 	public void addGuiComponents() {
-		add(ToolBar.getInstance(), new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-		add(GameBoard.getInstance(), new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		toolbar = new ToolBar(this);
+		add(toolbar, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+		gameBoard = new GameBoard();
+		add(gameBoard, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 	}
 
 	public void calculateDimensions() {
 		System.out.println("frame size: \t\t" + getWidth() + " x " + getHeight());
 		System.out.println("frame content pane: \t" + getContentPane().getSize().width + " x " + getContentPane().getSize().height);
-		System.out.println("toolbar: \t\t" + ToolBar.getInstance().getWidth() + " x " + ToolBar.getInstance().getHeight());
-		System.out.println("middle button: \t\t" + GameBoard.getInstance().getButtons().get(1).get(1).getWidth() + " x " + GameBoard.getInstance().getButtons().get(1).get(1).getHeight());
+		System.out.println("toolbar: \t\t" + toolbar.getWidth() + " x " + toolbar.getHeight());
+		System.out.println("middle button: \t\t" + gameBoard.getButtons().get(1).get(1).getWidth() + " x " + gameBoard.getButtons().get(1).get(1).getHeight());
 		// border width 6px
 		// border height 31px
 		// toolbar height 47px
 
 		widthExcludingGameBoard = getWidth() - getContentPane().getSize().width;
-		heightExcludingGameBoard = getHeight() - getContentPane().getHeight() + ToolBar.getInstance().getHeight();
+		heightExcludingGameBoard = getHeight() - getContentPane().getHeight() + toolbar.getHeight();
 	}
 
 	public void sliderSetup() {
@@ -84,15 +88,15 @@ public class Frame extends JFrame {
 
 		int value = (3 * minButtonSize + maxGameBoardSize) / 2 - ((3 * minButtonSize + maxGameBoardSize) / 2) % 9;
 		setSize(value + widthExcludingGameBoard, value + heightExcludingGameBoard);
-		ToolBar.getInstance().setSliderRange(3 * minButtonSize, maxGameBoardSize, value);
-		ToolBar.getInstance().addSliderListener(); // adds the listener and enables the slider;
+		toolbar.setSliderRange(3 * minButtonSize, maxGameBoardSize, value);
+		toolbar.addSliderListener(); // adds the listener and enables the slider;
 	}
 
 	protected void changeFrameSize(int newGameBoardSize) {
 		int width = newGameBoardSize + widthExcludingGameBoard;
 		int height = newGameBoardSize + heightExcludingGameBoard;
 
-		if (ToolBar.getInstance().getSlider().getMaximum() == newGameBoardSize) {
+		if (toolbar.getSlider().getMaximum() == newGameBoardSize) {
 			if (screenWidth > screenHeight) {
 				setBounds(getX(), 0, width, height);
 			}
@@ -104,7 +108,7 @@ public class Frame extends JFrame {
 			setSize(width, height);
 		}
 
-		System.out.println("middle button: " + GameBoard.getInstance().getButton(1, 1).getWidth() + " x " + GameBoard.getInstance().getButton(1, 1).getHeight());
+		System.out.println("middle button: " + gameBoard.getButton(1, 1).getWidth() + " x " + gameBoard.getButton(1, 1).getHeight());
 	}
 
 	public int getScreenShorterDimension() {
@@ -115,12 +119,8 @@ public class Frame extends JFrame {
 		return screenShorterDimensionDivisibleBy9;
 	}
 
-	public static Frame getInstance() {
-		return FrameHolder.INSTANCE;
+	public GameBoard getGameBoard() {
+		return gameBoard;
 	}
 
-	private static class FrameHolder {
-
-		private static final Frame INSTANCE = new Frame();
-	}
 }
