@@ -3,12 +3,11 @@
  *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
  *
- * SPDX-License-Identifier:    BSD-3-Clause
+ * SPDX-License-Identifier:    MIT
  */
 package com.github.miltenplescott.tictactoe;
 
 import java.awt.Color;
-
 import javax.swing.UIManager;
 
 /**
@@ -27,7 +26,7 @@ public final class Colors {
 	public static final Color GREY = new Color(240, 240, 240);
 
 	/**
-	 * Color of dark shadow of {@link JButton}
+	 * Color of dark shadow of {@link JButton}.
 	 */
 	public static final Color GREYISH = UIManager.getColor("Button.darkShadow");	// R:122 G:138 B:153
 
@@ -47,9 +46,15 @@ public final class Colors {
 	public static final Color DARK_GREY = new Color(51, 51, 51);
 
 	/**
+	 * The raddest red.
+	 */
+	public static final Color RED = new Color(255, 0, 0);
+
+	/**
 	 * No one is supposed to ever create an object of this class.
 	 */
 	private Colors() {
 		throw new AssertionError();
 	}
+
 }

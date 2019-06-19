@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
  *
- * SPDX-License-Identifier:    BSD-3-Clause
+ * SPDX-License-Identifier:    MIT
  */
 package com.github.miltenplescott.tictactoe.view;
 
@@ -21,10 +21,6 @@ public class ToolBar extends JToolBar {
 
 	private Frame frame;
 	private JSlider slider;
-//	private final int sliderDefaultMin = 252;
-//	private final int sliderDefaultMax = frame.getScreenShorterDimensionDivisibleBy9();
-	//private final int sliderMin = 252;
-	//private final int sliderMax = Frame.getInstance().getScreenShorterDimensionDivisibleBy9();
 
 	public ToolBar(Frame frame) {
 		super("toolbar", JToolBar.HORIZONTAL);
@@ -42,8 +38,8 @@ public class ToolBar extends JToolBar {
 		slider.setMinorTickSpacing(9);
 		slider.setEnabled(false);
 
-		@SuppressWarnings("UseOfObsoleteCollectionType")
-		Hashtable sliderLabels = new Hashtable();
+		@SuppressWarnings({"UseOfObsoleteCollectionType", "JdkObsolete"})
+		Hashtable<Integer, JLabel> sliderLabels = new Hashtable<>();
 		sliderLabels.put(slider.getMinimum(), new JLabel("MIN"));
 		sliderLabels.put(slider.getMaximum(), new JLabel("MAX"));
 
@@ -60,8 +56,8 @@ public class ToolBar extends JToolBar {
 		slider.setMaximum(max);
 		slider.setValue(current);
 
-		@SuppressWarnings("UseOfObsoleteCollectionType")
-		Hashtable sliderLabels = new Hashtable();
+		@SuppressWarnings({"UseOfObsoleteCollectionType", "JdkObsolete"})
+		Hashtable<Integer, JLabel> sliderLabels = new Hashtable<>();
 		sliderLabels.put(slider.getMinimum(), new JLabel("MIN"));
 		sliderLabels.put(slider.getMaximum(), new JLabel("MAX"));
 

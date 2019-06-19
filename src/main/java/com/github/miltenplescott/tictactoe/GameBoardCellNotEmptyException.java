@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
  *
- * SPDX-License-Identifier:    BSD-3-Clause
+ * SPDX-License-Identifier:    MIT
  */
 package com.github.miltenplescott.tictactoe;
 
@@ -26,4 +26,5 @@ public class GameBoardCellNotEmptyException extends RuntimeException {
 	public GameBoardCellNotEmptyException(String str) {
 		super(str);
 	}
+
 }

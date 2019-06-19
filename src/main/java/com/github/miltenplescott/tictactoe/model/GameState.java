@@ -11,8 +11,8 @@ package com.github.miltenplescott.tictactoe.model;
  *
  * @author Milten Plescott
  */
-public enum Symbol {
+public enum GameState {
 
-	X, O, none;
+	inProgress, tie, winnerUser, winnerAi;
 
 }

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
  *
- * SPDX-License-Identifier:    BSD-3-Clause
+ * SPDX-License-Identifier:    MIT
  */
 package com.github.miltenplescott.tictactoe;
 
@@ -16,50 +16,36 @@ import javax.swing.SwingUtilities;
 
 public class Main {
 
-	/*
-
-
-	another cmd line argument for difficulty:  random, easy, impossible
-	random is... well... random
-	easy will only try to block 2 in a row, otherwise it's random
-	impossible: user will be able to tie at best
-
-
-	 */
 	private static Symbol userSymbol;
 	private static Difficulty difficulty;
-
-	public String getGreeting() {
-		return "Hello world.";
-	}
-
-	// to suppressing SpotBugs warning
-	private static void newInstanceNotUsedWarning(View view) {
-	}
-
-	// to suppressing SpotBugs warning
-	private static void newInstanceNotUsedWarning(GameBoardController gbc) {
-	}
+	private static Boolean userStarts;
 
 	public static void main(String[] args) {
 
-		userSymbol = Symbol.X;
-		difficulty = Difficulty.impossible;
+		userSymbol = Symbol.X; // default
+		difficulty = Difficulty.impossible; // default
+		userStarts = true; // default
+
 		if (args.length != 0) {
 			parseArgs(args);
+			if (userStarts) {
+				System.out.println("Starting with following settings: " + userSymbol + ", " + difficulty + ", user goes first");
+			}
+			else {
+				System.out.println("Starting with following settings: " + userSymbol + ", " + difficulty + ", computer goes first");
+			}
 		}
-
-		System.out.println(new Main().getGreeting());
+		else {
+			System.out.println("Starting with default settings: " + userSymbol + ", " + difficulty + ", user goes first");
+		}
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-
-				View view = new View();
-				newInstanceNotUsedWarning(view);
-				Model model = new Model(userSymbol, difficulty);
-				GameBoardController gbc = new GameBoardController(model, view);
-				newInstanceNotUsedWarning(gbc);
+				Model model = new Model(userSymbol, difficulty, userStarts);
+				View view = new View(model);
+				GameBoardController.initGameBoardController(model, view);
+				model.startNewGame();
 			}
 		});
 	}
@@ -73,12 +59,11 @@ public class Main {
 			i++;
 			if (arg.equals("-s") || arg.equals("--user-symbol")) {
 				if (i < args.length) {
-					Symbol sym = parseSymbol(args[i]);
-					if (sym != null) {
-						userSymbol = sym;
+					try {
+						userSymbol = parseSymbol(args[i]);
 						i++;
 					}
-					else {
+					catch (IllegalArgumentException e) {
 						error = true;
 						System.err.println("Symbol argument is not recognized.");
 					}
@@ -90,12 +75,11 @@ public class Main {
 			}
 			else if (arg.equals("-d") || arg.equals("--difficulty")) {
 				if (i < args.length) {
-					Difficulty dif = parseDifficulty(args[i]);
-					if (dif != null) {
-						difficulty = dif;
+					try {
+						difficulty = parseDifficulty(args[i]);
 						i++;
 					}
-					else {
+					catch (IllegalArgumentException e) {
 						error = true;
 						System.err.println("Difficulty argument is not recognized.");
 					}
@@ -105,18 +89,36 @@ public class Main {
 					System.err.println("Difficulty argument is missing.");
 				}
 			}
+			else if (arg.equals("-u") || arg.equals("--user-starts")) {
+				if (i < args.length) {
+					try {
+						userStarts = parseUserStarts(args[i]);
+						i++;
+					}
+					catch (IllegalArgumentException e) {
+						error = true;
+						System.err.println("User starts argument is not recognized.");
+					}
+				}
+				else {
+					error = true;
+					System.err.println("User starts argument is missing.");
+				}
+			}
 		}
 
 		if (error) {
-			System.err.println("Usage: java -jar tic-tac-toe.jar [-s|--user-symbol <symbol>] [-d|--difficulty <difficulty name|number>]");
+			System.err.println("Usage: java -jar tic-tac-toe.jar "
+				+ "[-s|--user-symbol <symbol>] "
+				+ "[-d|--difficulty <difficulty name|number>] "
+				+ "[-u|--user-starts <boolean>]");
 			System.err.println("Available symbols: X, O");
 			System.err.println("Available difficulty: random (1), easy (2), impossible (3)");
+			System.err.println("Available boolean: true (1), false (0)");
 		}
-		System.out.println("Starting with following settings: " + userSymbol + ", " + difficulty);
-
 	}
 
-	private static Symbol parseSymbol(String str) {
+	private static Symbol parseSymbol(String str) throws IllegalArgumentException {
 		switch (str) {
 			case "x":
 			case "X":
@@ -126,11 +128,11 @@ public class Main {
 			case "0":
 				return Symbol.O;
 			default:
-				return null;
+				throw new IllegalArgumentException();
 		}
 	}
 
-	private static Difficulty parseDifficulty(String str) {
+	private static Difficulty parseDifficulty(String str) throws IllegalArgumentException {
 		switch (str.toLowerCase()) {
 			case "1":
 			case "random":
@@ -142,7 +144,20 @@ public class Main {
 			case "impossible":
 				return Difficulty.impossible;
 			default:
-				return null;
+				throw new IllegalArgumentException();
+		}
+	}
+
+	private static Boolean parseUserStarts(String str) throws IllegalArgumentException {
+		switch (str.toLowerCase()) {
+			case "1":
+			case "true":
+				return true;
+			case "0":
+			case "false":
+				return false;
+			default:
+				throw new IllegalArgumentException();
 		}
 	}
 

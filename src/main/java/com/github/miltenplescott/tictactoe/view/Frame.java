@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2018, Milten Plescott. All rights reserved.
  *
- * SPDX-License-Identifier:    BSD-3-Clause
+ * SPDX-License-Identifier:    MIT
  */
 package com.github.miltenplescott.tictactoe.view;
 
@@ -14,6 +14,11 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import javax.swing.JFrame;
 import com.github.miltenplescott.tictactoe.Colors;
+import com.github.miltenplescott.tictactoe.model.Difficulty;
+import com.github.miltenplescott.tictactoe.model.GameState;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -30,6 +35,10 @@ public class Frame extends JFrame {
 	private final int screenShorterDimensionDivisibleBy9;
 	private int widthExcludingGameBoard;
 	private int heightExcludingGameBoard;
+
+	private final transient PropertyChangeListener propertyChangeListener;
+	private static final String PROPERTY_NAME = "gameState";
+	private Difficulty difficulty;
 
 	public Frame() {
 		super("Tic Tac Toe");
@@ -51,6 +60,38 @@ public class Frame extends JFrame {
 		setLocationByPlatform(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
+
+		propertyChangeListener = new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(PROPERTY_NAME)) {
+					String gameResult = null;
+					switch ((GameState) evt.getNewValue()) {
+						case tie:
+							gameResult = "Game ended in a tie.";
+							break;
+						case winnerUser:
+							if (Frame.this.difficulty == Difficulty.impossible) {
+								gameResult = "<html>User won the game, despite the 'impossible' game difficulty."
+									+ "<br>"
+									+ "<br> Please, report this bug at milten.plescott@gmx.com or create a new issue at https://github.com/MiltenPlescott/tic-tac-toe/issues/new"
+									+ "<br> with a list of your moves.";
+							}
+							else {
+								gameResult = "User won the game!";
+							}
+							break;
+						case winnerAi:
+							gameResult = "AI won the game!";
+							break;
+						case inProgress:
+							throw new AssertionError("Should not happen - property should not get fired.");
+					}
+					JOptionPane.showMessageDialog(Frame.this, gameResult, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+					System.out.println(gameResult);
+				}
+			}
+		};
 	}
 
 	public void addGuiComponents() {
@@ -61,10 +102,6 @@ public class Frame extends JFrame {
 	}
 
 	public void calculateDimensions() {
-		System.out.println("frame size: \t\t" + getWidth() + " x " + getHeight());
-		System.out.println("frame content pane: \t" + getContentPane().getSize().width + " x " + getContentPane().getSize().height);
-		System.out.println("toolbar: \t\t" + toolbar.getWidth() + " x " + toolbar.getHeight());
-		System.out.println("middle button: \t\t" + gameBoard.getButtons().get(1).get(1).getWidth() + " x " + gameBoard.getButtons().get(1).get(1).getHeight());
 		// border width 6px
 		// border height 31px
 		// toolbar height 47px
@@ -107,8 +144,6 @@ public class Frame extends JFrame {
 		else {
 			setSize(width, height);
 		}
-
-		System.out.println("middle button: " + gameBoard.getButton(1, 1).getWidth() + " x " + gameBoard.getButton(1, 1).getHeight());
 	}
 
 	public int getScreenShorterDimension() {
@@ -121,6 +156,18 @@ public class Frame extends JFrame {
 
 	public GameBoard getGameBoard() {
 		return gameBoard;
+	}
+
+	public PropertyChangeListener getPropertyChangeListener() {
+		return propertyChangeListener;
+	}
+
+	public String getPropertyName() {
+		return PROPERTY_NAME;
+	}
+
+	protected void setDifficulty(Difficulty difficulty) {
+		this.difficulty = difficulty;
 	}
 
 }
